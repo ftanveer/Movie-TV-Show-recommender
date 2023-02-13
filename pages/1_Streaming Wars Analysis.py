@@ -3,12 +3,12 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-
+import pickle
 
 ###### Reading Files #########
 
-df_stream = pd.read_csv("df_stream_dir.csv")
 
+df_stream = pickle.load(open('./pages/df_stream_dir.pkl','rb'))
 ###### UX Design #########
 def add_bg_from_url():
     st.markdown(

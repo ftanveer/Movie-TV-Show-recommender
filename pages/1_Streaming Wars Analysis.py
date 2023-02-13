@@ -7,7 +7,7 @@ import seaborn as sns
 
 ###### Reading Files #########
 
-df_stream = pd.read_csv("dataframe_files/df_stream_dir.csv")
+df_stream = pd.read_csv("df_stream_dir.csv")
 
 ###### UX Design #########
 def add_bg_from_url():

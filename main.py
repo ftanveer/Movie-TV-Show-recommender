@@ -20,6 +20,7 @@ df_3_nlp = pickle.load(open('df_3_nlp.pkl','rb'))
 ### Generating cosine similarities  #####
 
 ########################################################### TFIDF
+
 tfidf = TfidfVectorizer()
 
 #vectorize the processed text
@@ -30,13 +31,13 @@ tfidf = TfidfVectorizer()
 # Compute the cosine similarity matrix
 
 @st.cache_data
-def get_matrix(_column):
+def get_tfidf_matrix(_column):
     tfidf_matrix = tfidf.fit_transform(_column)
     cosine = linear_kernel(tfidf_matrix, tfidf_matrix)
 
     return cosine
 
-cosine_sim_tfidf = get_matrix(df_2_nlp["description"])
+cosine_sim_tfidf = get_tfidf_matrix(df_2_nlp["description"])
 
 ##################################################### COUNT VECTORIZER
 
@@ -46,12 +47,17 @@ count = CountVectorizer()
 
 @st.cache_data
 def get_countvc_matrix(_column):
-    count_matrix = count.fit_transform(df_3_nlp['genres_soup'])
+    count_matrix = count.fit_transform(_column)
     cosine_sim_matrix = cosine_similarity(count_matrix, count_matrix)
 
     return cosine_sim_matrix
 
 cosine_sim_countvec = get_countvc_matrix(df_3_nlp['genres_soup'])
+
+#####################################################COMBINATION
+
+hybrid_cosine = cosine_sim_tfidf + cosine_sim_countvec
+
 
 ##### Get Posters #########
 
@@ -71,7 +77,7 @@ def get_poster(imdb_id):
     return poster_url
 
 
-hybrid_cosine = cosine_sim_tfidf + cosine_sim_countvec
+
 
 
 ######## Recommendation functions #########
@@ -107,7 +113,7 @@ def recommendation_engine(movie_title, cosine_similar):
     recommended_df["posters"] = recommended_df["imdb_id"].apply(get_poster)
 
     # for recom in recommendations["imdb_id"].values:
-    #     movie_poster = get_poster(recom)
+    #     movie_poster = get_poster(recomm)
     #     st.image(movie_poster, width=200)
     return recommended_df
 
@@ -145,7 +151,7 @@ content = st.selectbox("Search for a Movie / TV Show", all_content_names)
 
 
 
-############################## MAIN FUNCTION ##############
+################################################################# MAIN FUNCTION ##############
 
 
 if st.button('Recommend'):

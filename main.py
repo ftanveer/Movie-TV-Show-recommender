@@ -36,13 +36,13 @@ def get_matrix(_tfidf):
 
 cosine_sim = get_matrix(tfidf_matrix)
 
-#count = CountVectorizer()
-#count_matrix = count.fit_transform(df_3_nlp['genres_soup'])
+count = CountVectorizer()
+count_matrix = count.fit_transform(df_3_nlp['genres_soup'])
 
 
-#cosine_sim_metadata = cosine_similarity(count_matrix, count_matrix)
+cosine_sim_metadata = cosine_similarity(count_matrix, count_matrix)
 #
-#hybrid_cosine = cosine_sim + cosine_sim_metadata
+hybrid_cosine = cosine_sim + cosine_sim_metadata
 
 ##### Get Posters #########
 
@@ -137,7 +137,7 @@ content = st.selectbox("Search for a Movie / TV Show", all_content_names)
 
 
 if st.button('Recommend'):
-  recommendations = recommendation_engine(content,cosine_sim)
+  recommendations = recommendation_engine(content,hybrid_cosine)
   st.write("You might also like:")
 
   for index, row in recommendations.iterrows():

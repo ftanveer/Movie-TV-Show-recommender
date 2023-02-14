@@ -157,7 +157,7 @@ content = st.selectbox("Search for a Movie / TV Show", all_content_names)
 if st.button('Recommend'):
   recommendations = recommendation_engine(content,hybrid_cosine)
   st.markdown(
-      f"<strong style='color: orange;font-size :24px'> You might also like </strong>",
+      f"<strong style='color: orange;font-size :22px'> You might also like </strong>",
       unsafe_allow_html=True,
   )
 

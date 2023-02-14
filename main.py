@@ -29,8 +29,8 @@ tfidf_matrix = tfidf.fit_transform(df_2_nlp["description"])
 
 # Compute the cosine similarity matrix
 @st.cache_data
-def get_matrix(tfidf):
-    cosine = linear_kernel(tfidf, tfidf)
+def get_matrix(_tfidf):
+    cosine = linear_kernel(_tfidf, _tfidf)
 
     return cosine
 

@@ -28,8 +28,14 @@ tfidf_matrix = tfidf.fit_transform(df_2_nlp["description"])
 
 
 # Compute the cosine similarity matrix
-cosine_sim = linear_kernel(tfidf_matrix, tfidf_matrix)
-#
+@st.cache_data
+def get_matrix(tfidf):
+    cosine = linear_kernel(tfidf, tfidf)
+
+    return cosine
+
+cosine_sim = get_matrix(tfidf_matrix)
+
 #count = CountVectorizer()
 #count_matrix = count.fit_transform(df_3_nlp['genres_soup'])
 

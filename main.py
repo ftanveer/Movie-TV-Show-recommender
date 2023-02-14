@@ -19,7 +19,7 @@ df_3_nlp = pickle.load(open('df_3_nlp.pkl','rb'))
 
 ### Generating cosine similarities  #####
 
-
+################################################# TFIDF
 tfidf = TfidfVectorizer()
 
 #vectorize the processed text
@@ -28,6 +28,7 @@ tfidf_matrix = tfidf.fit_transform(df_2_nlp["description"])
 
 
 # Compute the cosine similarity matrix
+
 @st.cache_data
 def get_matrix(_tfidf):
     cosine = linear_kernel(_tfidf, _tfidf)
@@ -36,13 +37,19 @@ def get_matrix(_tfidf):
 
 cosine_sim = get_matrix(tfidf_matrix)
 
+######################################### COUNT VECTORIZER
+
 count = CountVectorizer()
 count_matrix = count.fit_transform(df_3_nlp['genres_soup'])
 
 
-cosine_sim_metadata = cosine_similarity(count_matrix, count_matrix)
-#
-hybrid_cosine = cosine_sim + cosine_sim_metadata
+@st.cache_data
+def get_countvc_matrix(_count_matrix):
+    cosine_sim_matrix = cosine_similarity(_count_matrix, _count_matrix)
+
+    return cosine_sim_matrix
+
+cosine_sim_metadata = get_countvc_matrix(count_matrix)
 
 ##### Get Posters #########
 
@@ -61,6 +68,7 @@ def get_poster(imdb_id):
     #actual_poster = st.image(poster_url, width=200)
     return poster_url
 
+hybrid_cosine = cosine_sim + cosine_sim_metadata
 
 ######## Recommendation functions #########
 

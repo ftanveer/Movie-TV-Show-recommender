@@ -19,37 +19,39 @@ df_3_nlp = pickle.load(open('df_3_nlp.pkl','rb'))
 
 ### Generating cosine similarities  #####
 
-################################################# TFIDF
+########################################################### TFIDF
 tfidf = TfidfVectorizer()
 
 #vectorize the processed text
 
-tfidf_matrix = tfidf.fit_transform(df_2_nlp["description"])
+#tfidf_matrix = tfidf.fit_transform(df_2_nlp["description"])
 
 
 # Compute the cosine similarity matrix
 
 @st.cache_data
-def get_matrix(_tfidf):
-    cosine = linear_kernel(_tfidf, _tfidf)
+def get_matrix(_column):
+    tfidf_matrix = tfidf.fit_transform(_column)
+    cosine = linear_kernel(tfidf_matrix, tfidf_matrix)
 
     return cosine
 
-cosine_sim = get_matrix(tfidf_matrix)
+cosine_sim_tfidf = get_matrix(df_2_nlp["description"])
 
-######################################### COUNT VECTORIZER
+##################################################### COUNT VECTORIZER
 
 count = CountVectorizer()
-count_matrix = count.fit_transform(df_3_nlp['genres_soup'])
+#count_matrix = count.fit_transform(df_3_nlp['genres_soup'])
 
 
 @st.cache_data
-def get_countvc_matrix(_count_matrix):
-    cosine_sim_matrix = cosine_similarity(_count_matrix, _count_matrix)
+def get_countvc_matrix(_column):
+    count_matrix = count.fit_transform(df_3_nlp['genres_soup'])
+    cosine_sim_matrix = cosine_similarity(count_matrix, count_matrix)
 
     return cosine_sim_matrix
 
-cosine_sim_metadata = get_countvc_matrix(count_matrix)
+cosine_sim_countvec = get_countvc_matrix(df_3_nlp['genres_soup'])
 
 ##### Get Posters #########
 
@@ -68,7 +70,9 @@ def get_poster(imdb_id):
     #actual_poster = st.image(poster_url, width=200)
     return poster_url
 
-hybrid_cosine = cosine_sim + cosine_sim_metadata
+
+hybrid_cosine = cosine_sim_tfidf + cosine_sim_countvec
+
 
 ######## Recommendation functions #########
 

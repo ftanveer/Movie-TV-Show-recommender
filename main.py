@@ -52,7 +52,7 @@ def get_countvc_matrix(_column):
 
     return cosine_sim_matrix
 
-cosine_sim_countvec = get_countvc_matrix(df_3_nlp['genres_soup'])
+cosine_sim_countvec = get_countvc_matrix(df_3_nlp['soup'])
 
 #####################################################COMBINATION
 
@@ -156,7 +156,10 @@ content = st.selectbox("Search for a Movie / TV Show", all_content_names)
 
 if st.button('Recommend'):
   recommendations = recommendation_engine(content,hybrid_cosine)
-  st.write("You might also like:")
+  st.markdown(
+      f"<strong style='color: orange;font-size :24px'> You might also like </strong>",
+      unsafe_allow_html=True,
+  )
 
   for index, row in recommendations.iterrows():
 
@@ -180,19 +183,19 @@ if st.button('Recommend'):
 
       plot = row["Plot"]
       st.markdown(
-          f"<p style='color: orange;'> {plot} </p>",
+          f"<strong style='color: orange;font-size :24px'> Plot: </strong> <p style='color: orange;'> {plot} </p>",
           unsafe_allow_html=True,
       )
       ###### Streaming Service
       streaming_platform = row["streaming_service"]
       st.markdown(
-          f"<p style='color: orange;'> {streaming_platform} </p>",
+          f"<strong style='color: orange;font-size :24px'>  Where to watch: </strong><p style='color: orange;'> {streaming_platform} streaming service. </p>",
           unsafe_allow_html=True,
       )
 
       cost = row["subscription_cost"]
       st.markdown(
-          f"<p style='color: orange;'> {cost} </p>",
+          f"<strong style='color: orange; font-size :24px'> Subscription Cost: </strong><p style='color: orange;'>  {cost} and up. </p>",
           unsafe_allow_html=True,
       )
 

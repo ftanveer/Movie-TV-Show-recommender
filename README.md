@@ -7,3 +7,4 @@ https://ftanveer-movie-tv-show-recommender-main-o08uvf.streamlit.app/
 Add features:
 -add text saying to ype movie here
 -add imdb rating
+-load api without revealing api key

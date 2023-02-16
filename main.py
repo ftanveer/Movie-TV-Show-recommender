@@ -10,7 +10,7 @@ from dotenv import load_dotenv
 import os
 
 
-API_KEY = os.environ['MY_API_KEY']
+API_KEY = os.environ.get("MY_API_KEY")
 
 ######## File Reading #########
 

@@ -6,7 +6,7 @@ from sklearn.metrics.pairwise import linear_kernel
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.feature_extraction.text import CountVectorizer
-
+from config import API_KEY
 
 
 ######## File Reading #########
@@ -63,7 +63,7 @@ hybrid_cosine = cosine_sim_tfidf + cosine_sim_countvec
 
 def get_poster(imdb_id):
     try:
-        url = f'https://api.themoviedb.org/3/find/{imdb_id}?api_key={api_key}&language=en-US&external_source=imdb_id'
+        url = f'https://api.themoviedb.org/3/find/{imdb_id}?api_key={API_KEY}&language=en-US&external_source=imdb_id'
         response = requests.get(url)
         data = response.json()
         movie = data["movie_results"][0]
@@ -90,6 +90,7 @@ def recommendation_engine(movie_title, cosine_similar):
     imdb_ids = []
     streaming_platform_list = []
     cost_list = []
+    imdb_score_list = []
 
     index = movie_names_desc[movie_names_desc['title'] == movie_title].index[0]
 
@@ -102,13 +103,15 @@ def recommendation_engine(movie_title, cosine_similar):
     ##recommendation to make up for the duplicate
 
     movie_data = [(get_df_info(df_1,'title',i),get_df_info(df_1,'description',i),get_df_info(df_1,'imdb_id',i),get_df_info(df_1,'streaming_service',i),
-                   get_df_info(df_1,'subscription_cost',i)) for i in top_10_content]
+                   get_df_info(df_1,'subscription_cost',i),get_df_info(df_1,'imdb_score',i)) for i in top_10_content]
 
     recommended_movies = [m[0] for m in movie_data]
     movie_desc_list = [m[1] for m in movie_data]
     imdb_ids = [m[2] for m in movie_data]
     streaming_platform_list = [m[3] for m in movie_data]
     cost_list = [m[4] for m in movie_data]
+    imdb_score_list = [m[5] for m in movie_data]
+
 
     # for i in top_10_content:
     #     recommended_movies.append(list(df_1['title'])[i])
@@ -119,7 +122,7 @@ def recommendation_engine(movie_title, cosine_similar):
 
 
     recommended_dict = {'Movie Name': recommended_movies, "Plot": movie_desc_list,"imdb_id":  imdb_ids, "streaming_service":streaming_platform_list,
-                        "subscription_cost": cost_list}
+                        "subscription_cost": cost_list,"imdb_score": imdb_score_list}
     recommended_df = pd.DataFrame.from_dict(recommended_dict)
     recommended_df["posters"] = recommended_df["imdb_id"].apply(get_poster)
 
@@ -131,7 +134,7 @@ def recommendation_engine(movie_title, cosine_similar):
 
 
 
-api_key = "25b4bc2ccb155d6b14e2276114009e03"
+
 
 
 
@@ -197,6 +200,12 @@ if st.button('Recommend'):
           f"<strong style='color: orange;font-size :24px'> Plot: </strong> <p style='color: orange;'> {plot} </p>",
           unsafe_allow_html=True,
       )
+     ########## IMDb Score
+      imdb_score = row["imdb_score"]
+      st.markdown(
+          f"<strong style='color: orange; font-size :24px'> IMDb Score: </strong><p style='color: orange;'>  {imdb_score} </p>",
+          unsafe_allow_html=True,
+      )
       ###### Streaming Service
       streaming_platform = row["streaming_service"]
       st.markdown(
@@ -209,6 +218,8 @@ if st.button('Recommend'):
           f"<strong style='color: orange; font-size :24px'> Subscription Cost: </strong><p style='color: orange;'>  {cost} and up. </p>",
           unsafe_allow_html=True,
       )
+
+
 
 
 

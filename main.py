@@ -9,8 +9,8 @@ from sklearn.feature_extraction.text import CountVectorizer
 from dotenv import load_dotenv
 import os
 
-load_dotenv()
-API_KEY = os.getenv('MY_API_KEY')
+
+API_KEY = os.environ['MY_API_KEY']
 
 ######## File Reading #########
 

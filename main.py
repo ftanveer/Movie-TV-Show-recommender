@@ -120,7 +120,7 @@ def recommendation_engine(movie_title, cosine_similar):
 
 
 
-api_key = "2"
+api_key = "25b4bc2ccb155d6b14e2276114009e03"
 
 
 

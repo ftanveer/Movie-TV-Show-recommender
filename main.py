@@ -12,6 +12,7 @@ import os
 
 try:
     API_KEY = os.environ.get("MY_API_KEY")
+    st.write("found!")
 except:
     st.write("not obtained")
     

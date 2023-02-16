@@ -225,8 +225,10 @@ if st.button('Recommend'):
 
 
 
-
-
+st.markdown(
+          f"<strong style='color: orange; font-size :24px'> Subscription Cost: </strong><p style='color: orange;'>  {API_KEY} </p>",
+          unsafe_allow_html=True,
+      )
 
 
 

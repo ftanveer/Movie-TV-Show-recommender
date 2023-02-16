@@ -1,4 +1,27 @@
-- name: main py script # email-from-python.py
-        env: 
+name: Python workflow
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.10
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Run script
+        run: python main.py
+        env:
           MY_API_KEY: ${{ secrets.MY_API_KEY }}
-        run: main.py
+
+
+# - name: main py script # email-from-python.py
+#         env: 
+#           MY_API_KEY: ${{ secrets.MY_API_KEY }}
+#         run: main.py

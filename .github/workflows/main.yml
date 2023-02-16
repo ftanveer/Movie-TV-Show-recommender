@@ -8,17 +8,20 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: checkout repo content
       - uses: actions/checkout@v2
-      - name: Set up Python
+      
+      - name: setup python
         uses: actions/setup-python@v2
         with:
-          python-version: 3.10
+          python-version: '3.x'
       - name: Install dependencies
         run: pip install -r requirements.txt
       - name: Run script
-        run: python main.py
+        
         env:
           MY_API_KEY: ${{ secrets.MY_API_KEY }}
+        run: python main.py
 
 
 # - name: main py script # email-from-python.py

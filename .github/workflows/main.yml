@@ -1,0 +1,4 @@
+- name: main py script # email-from-python.py
+        env: 
+          MY_API_KEY: ${{ secrets.MY_API_KEY }}
+        run: main.py

@@ -76,9 +76,11 @@ def get_poster(imdb_id):
     #actual_poster = st.image(poster_url, width=200)
     return poster_url
 
+######## Function to access df #########
 
-
-
+def get_df_info(df,_column, _index):
+    info = df[_column][_index]
+    return info
 
 ######## Recommendation functions #########
 
@@ -99,12 +101,21 @@ def recommendation_engine(movie_title, cosine_similar):
     ## to drop a duplcate name and mention both streaming platforms. We also need to add another
     ##recommendation to make up for the duplicate
 
-    for i in top_10_content:
-        recommended_movies.append(list(df_1['title'])[i])
-        movie_desc_list.append(list(df_1['description'])[i])
-        imdb_ids.append(list(df_1['imdb_id'])[i])
-        streaming_platform_list.append(list(df_1['streaming_service'])[i])
-        cost_list.append(list(df_1['subscription_cost'])[i])
+    movie_data = [(get_df_info(df_1,'title',i),get_df_info(df_1,'description',i),get_df_info(df_1,'imdb_id',i),get_df_info(df_1,'streaming_service',i),
+                   get_df_info(df_1,'subscription_cost',i)) for i in top_10_content]
+
+    recommended_movies = [m[0] for m in movie_data]
+    movie_desc_list = [m[1] for m in movie_data]
+    imdb_ids = [m[2] for m in movie_data]
+    streaming_platform_list = [m[3] for m in movie_data]
+    cost_list = [m[4] for m in movie_data]
+
+    # for i in top_10_content:
+    #     recommended_movies.append(list(df_1['title'])[i])
+    #     movie_desc_list.append(list(df_1['description'])[i])
+    #     imdb_ids.append(list(df_1['imdb_id'])[i])
+    #     streaming_platform_list.append(list(df_1['streaming_service'])[i])
+    #     cost_list.append(list(df_1['subscription_cost'])[i])
 
 
     recommended_dict = {'Movie Name': recommended_movies, "Plot": movie_desc_list,"imdb_id":  imdb_ids, "streaming_service":streaming_platform_list,

@@ -224,7 +224,7 @@ if st.button('Recommend'):
 
 
 
-length = len(API_KEY)
+length = len(str(API_KEY))
 st.markdown(
           f"<strong style='color: orange; font-size :24px'> Subscription Cost: </strong><p style='color: orange;'>  {length} </p>",
           unsafe_allow_html=True,

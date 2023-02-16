@@ -10,8 +10,11 @@ from dotenv import load_dotenv
 import os
 
 
-API_KEY = os.environ.get("MY_API_KEY")
-
+try:
+    API_KEY = os.environ.get("MY_API_KEY")
+except:
+    st.write("not obtained")
+    
 ######## File Reading #########
 
 movie_names_desc = pickle.load(open('movie_names_desc.pkl','rb'))

@@ -20,8 +20,8 @@ jobs:
       - name: Run script
         
         env:
-          MY_API_KEY: '${{ secrets.MY_API_KEY }}'
-        run: python main.py
+          MY_API_KEY: ${{ secrets.MY_API_KEY }}
+        run: python3 main.py 
 
 
 # - name: main py script # email-from-python.py

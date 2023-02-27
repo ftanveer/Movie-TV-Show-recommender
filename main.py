@@ -11,7 +11,8 @@ import os
 
 
 try:
-    API_KEY = os.environ.get("MY_API_KEY")
+    API_KEY = '25b4bc2ccb155d6b14e2276114009e03'
+    #API_KEY = os.environ.get("MY_API_KEY")
     #API_KEY : '${{ secrets.MY_API_KEY }}'
     st.write("found!")
 except:

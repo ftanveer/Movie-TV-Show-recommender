@@ -9,4 +9,4 @@ NOTE: App under construction
 Add features:
 -add text saying to ype movie here
 -add imdb rating
--load api without revealing api key
+
